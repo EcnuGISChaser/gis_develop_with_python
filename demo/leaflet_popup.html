@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>arcgisonline全球影像切片地图</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" 
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ
+    ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew
+    ==" crossorigin=""></script>
+    <style>
+        #mapid{width: 600px; height:400px;}
+    </style>
+</head>
+
+<body>
+    <h1>叠置图形</h1>
+    <div id="mapid" style="width: 600px; height: 400px;"></div>
+    <script>
+        mymap = L.map('mapid',{center: [27.97, 106.77],zoom: 12});
+        url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        tileLayer = L.tileLayer(url, {attribution: 'arcgisonline'});
+        tileLayer.addTo(mymap);
+        marker = L.marker([27.97, 106.77]);
+        marker.bindPopup("this is a marker");
+        marker.addTo(mymap)
+
+        latlngs = [
+          [27.99, 106.71],
+          [28.02, 106.75],
+          [28.02, 106.79]];
+        polyline = L.polyline(latlngs, {color: 'red'});
+        polyline.bindPopup("this is a polyline");
+        polyline.addTo(mymap)
+      
+        latlngs = [
+          [27.99, 106.82],
+          [27.96, 106.80],
+          [27.94, 106.83],
+          [27.97, 106.84]];
+        polygon = L.polygon(latlngs, {color: 'green'});
+        polygon.bindPopup("this is a polygon") ;
+        polygon.addTo(mymap)
+    </script>
+</body>
+</html>

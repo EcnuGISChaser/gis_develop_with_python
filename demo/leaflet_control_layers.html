@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>Quick Start - Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+</head>
+
+<body>
+    <div id="mapid" style="width: 300px; height: 300px;"></div>
+    <script>
+        mymap = L.map('mapid',{center: [40, -105],zoom: 5});
+        url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        World_Imagery = L.tileLayer(url, {attribution: 'arcgisonline'});
+        World_Imagery.addTo(mymap)
+
+        url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}';
+        World_Street_Map = L.tileLayer(url, {attribution: 'arcgisonline'});
+        
+        url = "http://sampleserver1.arcgisonline.com/ArcGIS/services/Specialty/ESRI_StatesCitiesRivers_USA/MapServer/WMSServer?"
+        WMS = L.tileLayer.wms(url, {
+          layers: '0,1,2',
+          format: 'image/png',
+          transparent: true,
+          attribution: "arcgisonline",
+          });
+        
+        cities = L.layerGroup();
+        L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.').addTo(cities),
+        L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.').addTo(cities),
+        L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.').addTo(cities),
+        L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.').addTo(cities);
+
+        baseMaps = {
+            "World_Imagery": World_Imagery,
+            "World_Street_Map": World_Street_Map};
+        
+        overlayMaps = {
+            "WMS": WMS,
+            "cities":cities};
+        
+        L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+    </script>
+</body>
+</html>
